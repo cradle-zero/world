@@ -16,7 +16,7 @@
     "gate": "pnpm check && pnpm test:js && pnpm rust:tools && pnpm rust:constructs && pnpm constructs"
   },
   "dependencies": {
-    "cradlezero": "https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz"
+    "cradlezero": "https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.9"
