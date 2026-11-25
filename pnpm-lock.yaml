@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       cradlezero:
-        specifier: https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz
-        version: https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz
+        specifier: https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz
+        version: https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz
     devDependencies:
       '@biomejs/biome':
         specifier: 2.6.9
@@ -87,9 +87,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  cradlezero@https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz:
-    resolution: {integrity: sha512-QCdZAVmC/XEHDPykApY4ZZ9iRgF5Ldx9344MVkR9Yaugx99FC1KWKFDpm2MIcqYSHV2gEmFywURMCtsbPk05bQ==, tarball: https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz}
-    version: 0.3.0
+  cradlezero@https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz:
+    resolution: {integrity: sha512-Jkc4fm+uPc520pVIV5H99fghJCJqokWpVCbEL6nmFKobpAnIr0nZgqPSy4V78TKG0YCuPeMp7sZHB96TGTMc2w==, tarball: https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz}
+    version: 0.4.0
     engines: {node: '>=20'}
 
 snapshots:
@@ -137,4 +137,4 @@ snapshots:
   '@biomejs/cli-win32-x64@2.6.9':
     optional: true
 
-  cradlezero@https://github.com/cradle-zero/sdk/releases/download/v0.3.0/cradlezero-0.3.0.tgz: {}
+  cradlezero@https://github.com/cradle-zero/sdk/releases/download/v0.4.0/cradlezero-0.4.0.tgz: {}
