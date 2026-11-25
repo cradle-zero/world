@@ -88,7 +88,7 @@ packages:
     os: [win32]
 
   cradlezero@https://github.com/cradle-zero/sdk/releases/download/v0.2.0/cradlezero-0.2.0.tgz:
-    resolution: {tarball: https://github.com/cradle-zero/sdk/releases/download/v0.2.0/cradlezero-0.2.0.tgz}
+    resolution: {integrity: sha512-z7TIRs8gfgeEqT9zou982rp87bJqBWtw+Rmf1R+rALBz2TVLQaRfevqE3ubxu0BaxqY3q+ixauvPGcCN8iXCjw==, tarball: https://github.com/cradle-zero/sdk/releases/download/v0.2.0/cradlezero-0.2.0.tgz}
     version: 0.2.0
     engines: {node: '>=20'}
 
