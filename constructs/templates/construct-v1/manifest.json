@@ -1,0 +1,9 @@
+{
+  "abi_version": 1,
+  "slug": "construct-v1-template",
+  "author_id": "cradlezero",
+  "gas_limit": 5000,
+  "royalty_bps": 0,
+  "memory_page_limit": 2,
+  "geometry": { "shape": "rect", "width_cell": 1, "height_cell": 1, "hue_index": 0 }
+}

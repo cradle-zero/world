@@ -1,0 +1,18 @@
+# Construct workspace. Every member compiles to wasm32 (see .cargo/config.toml) and must pass
+# cz-validate. Add a submitted Construct by adding its folder to `members`.
+[workspace]
+resolver = "3"
+members = ["abi", "templates/construct-v1"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.100"
+publish = false
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+debug = false

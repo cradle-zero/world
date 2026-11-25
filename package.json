@@ -1,0 +1,24 @@
+{
+  "name": "world",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "biome check .",
+    "fix": "biome check --write .",
+    "test:js": "node --test \"verifiers/*.test.mjs\"",
+    "rust:tools": "cargo fmt --all --check && cargo clippy --workspace --all-targets -- -D warnings && cargo test --workspace && cargo build --release -p cz_validator",
+    "rust:constructs": "cd constructs && cargo fmt --all --check && cargo clippy --workspace --release -- -D warnings && cargo build --workspace --release --locked",
+    "constructs": "node verifiers/check-constructs.mjs",
+    "gate": "pnpm check && pnpm test:js && pnpm rust:tools && pnpm rust:constructs && pnpm constructs"
+  },
+  "dependencies": {
+    "cradlezero": "https://github.com/cradle-zero/sdk/releases/download/v0.2.0/cradlezero-0.2.0.tgz"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.9"
+  }
+}

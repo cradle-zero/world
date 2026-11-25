@@ -1,0 +1,9 @@
+[build]
+target = "wasm32-unknown-unknown"
+
+[target.wasm32-unknown-unknown]
+# 16 KiB stack and a hard two-page (128 KiB) memory ceiling.
+rustflags = [
+  "-C", "link-arg=-zstack-size=16384",
+  "-C", "link-arg=--max-memory=131072",
+]

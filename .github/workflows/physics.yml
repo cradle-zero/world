@@ -1,0 +1,38 @@
+name: physics
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: physics-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    if: github.event.pull_request.draft != true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+      # rust-toolchain.toml pins the compiler, components, and the wasm32 target.
+      - run: rustup show active-toolchain || rustup toolchain install
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: |
+            . -> target
+            constructs -> target
+      - run: pnpm install --frozen-lockfile
+      - name: Path guard
+        if: github.event_name == 'pull_request'
+        run: node verifiers/path-guard.mjs
+      - run: pnpm gate
+      - run: gitleaks git --redact --no-banner .

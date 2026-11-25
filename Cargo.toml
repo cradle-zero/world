@@ -1,0 +1,10 @@
+# Host tools. Constructs build in their own workspace under constructs/ for wasm32.
+[workspace]
+resolver = "3"
+members = ["validator"]
+exclude = ["constructs"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.100"
+publish = false

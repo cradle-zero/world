@@ -1,0 +1,20 @@
+[package]
+name = "cz_validator"
+version = "0.1.0"
+description = "Checks a compiled Construct against Construct ABI v1 before it can merge."
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "cz-validate"
+path = "src/main.rs"
+
+[dependencies]
+wasmparser = "=0.263.0"
+
+[dev-dependencies]
+wat = "=1.263.0"
+
+[lints.rust]
+unsafe_code = "forbid"

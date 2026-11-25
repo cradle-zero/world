@@ -1,0 +1,3 @@
+# Secret scan for every commit. Extends the built-in rules.
+[extend]
+useDefault = true
