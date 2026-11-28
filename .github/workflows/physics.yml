@@ -2,27 +2,91 @@ name: physics
 
 on:
   pull_request:
+    types:
+      [
+        opened,
+        synchronize,
+        reopened,
+        ready_for_review,
+        converted_to_draft,
+        edited,
+        labeled,
+        unlabeled,
+      ]
   push:
-    branches: [main]
+    branches: [main, "release/v*"]
 
 permissions:
   contents: read
 
 concurrency:
   group: physics-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   gate:
-    if: github.event.pull_request.draft != true
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Draft and hold guard
+        if: github.event_name == 'pull_request'
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import sys
+
+          event_path = os.environ.get("GITHUB_EVENT_PATH")
+          if not event_path:
+              print("ERROR: GITHUB_EVENT_PATH is not set", file=sys.stderr)
+              sys.exit(1)
+
+          with open(event_path, encoding="utf-8") as fh:
+              event = json.load(fh)
+
+          pr = event.get("pull_request") or {}
+          errors = []
+
+          if pr.get("draft") is True:
+              errors.append("PR is marked as Draft")
+
+          blocked_labels = {"hold", "do-not-merge", "wip"}
+          labels = [
+              str(lbl.get("name", "")).strip().lower()
+              for lbl in (pr.get("labels") or [])
+              if isinstance(lbl, dict)
+          ]
+          hit_labels = sorted(lbl for lbl in set(labels) if lbl in blocked_labels)
+          if hit_labels:
+              errors.append(f"PR carries blocking label(s): {', '.join(hit_labels)}")
+
+          title = str(pr.get("title") or "")
+          title_re = re.compile(
+              r"^(?:\[(?:HOLD|WIP|DO NOT MERGE)\]|(?:HOLD|WIP|DO NOT MERGE)\b)|\bDO NOT MERGE\b",
+              re.IGNORECASE,
+          )
+          if title_re.search(title):
+              errors.append("PR title carries HOLD/WIP/DO NOT MERGE marker")
+
+          if errors:
+              for err in errors:
+                  print(f"BLOCKED: {err}", file=sys.stderr)
+              sys.exit(1)
+
+          print("draft and hold guard: ok")
+          PY
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
+      - name: Path guard
+        if: github.event_name == 'pull_request'
+        run: node verifiers/path-guard.mjs
+      - name: Plan guard
+        if: github.event_name == 'pull_request'
+        run: node verifiers/plan-guard.mjs
       # rust-toolchain.toml pins the compiler, components, and the wasm32 target.
       - run: rustup show active-toolchain || rustup toolchain install
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
@@ -31,8 +95,5 @@ jobs:
             . -> target
             constructs -> target
       - run: pnpm install --frozen-lockfile
-      - name: Path guard
-        if: github.event_name == 'pull_request'
-        run: node verifiers/path-guard.mjs
       - run: pnpm gate
       - run: gitleaks git --redact --no-banner .
