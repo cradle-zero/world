@@ -23,3 +23,8 @@ Public repository. Everything here is visible to everyone. It holds only Constru
 - The validator's self-tests must reject every forbidden shape. Add a test with every new rule.
 - Changes to `validator/`, `verifiers/`, or `.github/` go in their own pull request, never with a Construct.
 - Work on a branch and open a pull request. `main` accepts squash merges only after `gate` passes.
+
+## Engineering Operating System (EOS)
+
+- Maintainer pull requests must include the `## EOS Metadata` trailer block from `.github/pull_request_template.md` (`EOS-Tier`, `EOS-Linear`, plus `EOS-Plan` and `EOS-Phase` for Tier 1 and Tier 2), obey `.cz-protected-paths.json`, and pass `verifiers/plan-guard.mjs` inside CI `gate`.
+- External Construct submissions under `constructs/submitted/<slug>/` omit `EOS-*` trailers when they satisfy `verifiers/path-guard.mjs` and both `## Submission Terms` checkboxes verbatim. Never click the GitHub Web UI "Update branch" button.
