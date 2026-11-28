@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "repo": "world",
+  "tier0_max_files": 3,
+  "lockfiles": ["pnpm-lock.yaml", "Cargo.lock", "package.json", "Cargo.toml"],
+  "protected_globs": [
+    "validator/**",
+    "verifiers/**",
+    "LICENSE.md",
+    ".cz-protected-paths.json",
+    ".gitleaks.toml",
+    ".github/CODEOWNERS",
+    ".github/workflows/**",
+    "mise.toml",
+    "package.json"
+  ],
+  "owner_merge_always_globs": ["**"]
+}
